@@ -37,26 +37,33 @@
 #
 class sipp(
   $repo_path         = "git://github.com/SIPp/sipp.git",
-  #$install_dir       = "/usr/local",
-  #$sipp_version      = "3.4-beta2",
+  $install_dir       = "/usr/local",
+  $sipp_version      = "3.4-beta2",
 ) {
 
   # require git
+
+  $dependencies = [ "libpcap-dev", "libsctp-dev", "autoconf-archive" ]
+  package { "sipp dependencies":
+    name => $dependencies,
+    ensure => "installed"
+  }
 
   exec { "sipp fetch":
     command => "git clone ${repo_path} /tmp/sipp-src",
     path => ["/usr/bin", "/bin"]
   }
 
-  #exec { "sipp checkout":
-  #  cwd => "/tmp/sipp-src",
-  #  command => "/usr/bin/git checkout ${sipp_version}",
-  #  require => Exec["sipp fetch"]
-  #}
+  exec { "sipp checkout":
+    cwd => "/tmp/sipp-src",
+    command => "/usr/bin/git checkout ${sipp_version}",
+    require => Exec["sipp fetch"]
+  }
 
-  #exec { "sipp install":
-  #  cwd => "/tmp/sipp-src",
-  #  command => "autoreconf -ivf && ./configure --with-pcap --with-sctp && make",
-  #  require => Exec["sipp checkout"]
-  #}
+  exec { "sipp install":
+    cwd => "/tmp/sipp-src",
+    command => "autoreconf -ivf && ./configure --with-pcap --with-sctp && make",
+    path => ["/usr/bin", "/bin"],
+    require => [Package["sipp dependencies"], Exec["sipp checkout"]]
+  }
 }
