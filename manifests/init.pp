@@ -54,19 +54,22 @@ class sipp(
   exec { "sipp fetch":
     command => "git clone ${repo_path} ${install_path}",
     path => ["/usr/bin", "/bin"],
-    creates => "${install_path}"
+    creates => "${install_path}",
+    notify => Exec["sipp checkout"]
   }
 
   exec { "sipp checkout":
     cwd => "${install_path}",
     command => "/usr/bin/git checkout ${sipp_version}",
-    require => Exec["sipp fetch"]
+    require => Exec["sipp fetch"],
+    refreshonly => true
   }
 
   exec { "sipp install":
     cwd => "${install_path}",
     command => "autoreconf -ivf && ./configure --with-pcap --with-sctp && make",
     path => ["/usr/bin", "/bin"],
-    require => [Package["sipp dependencies"], Exec["sipp checkout"]]
+    require => [Package["sipp dependencies"], Exec["sipp checkout"]],
+    creates => "${install_path}/sipp"
   }
 }
