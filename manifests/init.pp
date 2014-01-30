@@ -54,7 +54,7 @@ class sipp(
   exec { "sipp fetch":
     command => "git clone ${repo_path} ${install_path}",
     path => ["/usr/bin", "/bin"],
-    unless => "/usr/bin/test -f ${install_path}"
+    creates => "${install_path}"
   }
 
   exec { "sipp checkout":
