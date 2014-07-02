@@ -45,7 +45,7 @@ class sipp(
 
   $install_path = "${install_base_path}/sipp-src"
 
-  $dependencies = [ "libpcap-dev", "libsctp-dev", "autoconf-archive" ]
+  $dependencies = [ "libpcap-dev", "libsctp-dev", "autoconf-archive", "git-core", "libncurses5-dev" ]
   package { "sipp dependencies":
     name => $dependencies,
     ensure => "installed"
