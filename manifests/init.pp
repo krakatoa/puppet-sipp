@@ -51,7 +51,7 @@ class sipp(
   package { "libsctp-dev":
     ensure => "installed"
   }
-  package { "autoconf-archive":
+  package { "autoconf":
     ensure => "installed"
   }
   package { "git-core":
