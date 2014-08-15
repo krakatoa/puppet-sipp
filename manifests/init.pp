@@ -45,10 +45,26 @@ class sipp(
 
   $install_path = "${install_base_path}/sipp-src"
 
-  [ "libpcap-dev", "libsctp-dev", "autoconf-archive", "git-core", "libncurses5-dev", "make", "g++" ].each |$p| {
-    package { $p:
-      ensure => "installed"
-    }
+  package { "libpcap-dev":
+    ensure => "installed"
+  }
+  package { "libsctp-dev":
+    ensure => "installed"
+  }
+  package { "autoconf-archive":
+    ensure => "installed"
+  }
+  package { "git-core":
+    ensure => "installed"
+  }
+  package { "libncurses5-dev":
+    ensure => "installed"
+  }
+  package { "make":
+    ensure => "installed"
+  }
+  package { "g++":
+    ensure => "installed"
   }
   
   exec { "sipp fetch":
