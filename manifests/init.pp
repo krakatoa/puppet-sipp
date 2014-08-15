@@ -45,12 +45,12 @@ class sipp(
 
   $install_path = "${install_base_path}/sipp-src"
 
-  $dependencies = [ "libpcap-dev", "libsctp-dev", "autoconf-archive", "git-core", "libncurses5-dev", "make", "g++" ]
-  package { "sipp dependencies":
-    name => $dependencies,
-    ensure => "installed"
+  [ "libpcap-dev", "libsctp-dev", "autoconf-archive", "git-core", "libncurses5-dev", "make", "g++" ].each |$p| {
+    package { $p:
+      ensure => "installed"
+    }
   }
-
+  
   exec { "sipp fetch":
     command => "git clone ${repo_path} ${install_path}",
     path => ["/usr/bin", "/bin"],
@@ -69,7 +69,7 @@ class sipp(
     cwd => "${install_path}",
     command => "autoreconf -ivf && ./configure --with-pcap --with-sctp && make",
     path => ["/usr/bin", "/bin"],
-    require => [Package["sipp dependencies"], Exec["sipp checkout"]],
+    require => [Package["libpcap-dev"], Package["libsctp-dev"], Package["autoconf-archive"], Package["git-core"], Package["libncurses5-dev"], Package["make"], Package["g++"], Exec["sipp checkout"]],
     creates => "${install_path}/sipp"
   }
 }
