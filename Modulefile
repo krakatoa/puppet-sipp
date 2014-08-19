@@ -1,5 +1,5 @@
 name    'krakatoa-sipp'
-version '0.0.10'
+version '0.1.0'
 source 'https://github.com/krakatoa/puppet-sipp'
 author 'Fernando Dario Alonso'
 license 'Apache License, Version 2.0'

@@ -38,7 +38,7 @@
 class sipp(
   $repo_path         = "git://github.com/SIPp/sipp.git",
   $install_base_path = "/usr/local",
-  $sipp_version      = "3.4-beta2"
+  $sipp_version      = "v3.4.1"
 ) {
 
   # require git
@@ -49,6 +49,9 @@ class sipp(
     ensure => "installed"
   }
   package { "libsctp-dev":
+    ensure => "installed"
+  }
+  package { "automake":
     ensure => "installed"
   }
   package { "autoconf":
@@ -85,7 +88,7 @@ class sipp(
     cwd => "${install_path}",
     command => "autoreconf -ivf && ./configure --with-pcap --with-sctp && make",
     path => ["/usr/bin", "/bin"],
-    require => [Package["libpcap-dev"], Package["libsctp-dev"], Package["autoconf"], Package["git-core"], Package["libncurses5-dev"], Package["make"], Package["g++"], Exec["sipp checkout"]],
+    require => [Package["automake"], Package["libpcap-dev"], Package["libsctp-dev"], Package["autoconf"], Package["git-core"], Package["libncurses5-dev"], Package["make"], Package["g++"], Exec["sipp checkout"]],
     creates => "${install_path}/sipp"
   }
 }
