@@ -57,6 +57,9 @@ class sipp(
   package { "autoconf":
     ensure => "installed"
   }
+  package { "autoconf-archive":
+    ensure => "installed"
+  }
   package { "git-core":
     ensure => "installed"
   }
@@ -88,7 +91,7 @@ class sipp(
     cwd => "${install_path}",
     command => "autoreconf -ivf && ./configure --with-pcap --with-sctp && make",
     path => ["/usr/bin", "/bin"],
-    require => [Package["automake"], Package["libpcap-dev"], Package["libsctp-dev"], Package["autoconf"], Package["git-core"], Package["libncurses5-dev"], Package["make"], Package["g++"], Exec["sipp checkout"]],
+    require => [Package["automake"], Package["libpcap-dev"], Package["libsctp-dev"], Package["autoconf"], Package["autoconf-archive"], Package["git-core"], Package["libncurses5-dev"], Package["make"], Package["g++"], Exec["sipp checkout"]],
     creates => "${install_path}/sipp"
   }
 }
